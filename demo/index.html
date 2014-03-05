@@ -47,10 +47,13 @@
 		</style>
 	</head>
 	<script src="http://code.jquery.com/jquery.min.js"></script>
+	<script src="jquery.easing.1.3.js"></script>
 	<script src="../ballzCarousel.js"></script>
 	<script>
 	$(function () {
-		$('#carousel-container').ballzCarousel();
+		$('#carousel-container').ballzCarousel({
+			'easeInQuint'
+		});
 	});
 	</script>
 	<body>
