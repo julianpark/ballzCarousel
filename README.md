@@ -11,15 +11,15 @@ $('#carousel-container').ballzCarousel({ // default options
 });
 
 Markup Structure:
-<div id="carousel-container"> // whatever tag that is initialized with plugin
-	<div class="carousel"> // any tag with "carousel" class
-	<button class="prev"></button> // any tag with "prev" and "next" class
-	<div class="item-container"> // any tag with "item-container" class
-		<div></div> // can be any tag
-	</div>
-	<button class="next"></button>
-	</div>
-</div>
+div id="carousel-container" // whatever tag that is initialized with plugin
+	div class="carousel" // any tag with "carousel" class
+	button class="prev" // any tag with "prev" and "next" class
+	div class="item-container" // any tag with "item-container" class
+		div // can be any tag
+	/div
+	button class="next"
+	/div
+/div
 
 UPDATES
 -------
