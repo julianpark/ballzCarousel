@@ -48,9 +48,15 @@ $.fn.ballzCarousel = function(options) {
 	var items = itemContainer.children();
 	var itemWidth = items.outerWidth(true);
 	var numItems = items.length;
-	itemContainer.width(itemWidth * items.length); // size the itemContainer width to contain items
-	if(itemContainer.width() > overallContainer.width()) { nextButton.removeClass('disabled'); } // if there are more items than are showing, show the next button
-	var numItemsStart = Math.ceil(overallContainer.width() / itemWidth); // this could just be numItems
+	var itemsTotalWidth = 0;
+	var posShift = itemWidth * settings.numItemShift;
+
+	itemContainer.width(numItems * itemWidth); // size the itemContainer width to contain items
+	var itemHeight = items.outerHeight(true);
+	overallContainer.height(itemHeight);
+
+	if(itemContainer.width() >= overallContainer.width()) { nextButton.removeClass('disabled'); } // if there are more items than are showing, show the next button
+	var numItemsStart = settings.numItemShift;
 
 	var i = numItemsStart; // item position count
 	nextButton.click(function (e) {
@@ -63,9 +69,9 @@ $.fn.ballzCarousel = function(options) {
 				if(remainder == 0) { remainder = 1; }
 				var newPos = currentPos - (itemWidth * remainder); // if there are less than numItemShift on the last shift, just move over the necessary amount
 			} else {
-				var newPos = currentPos - (itemWidth * settings.numItemShift);
+				var newPos = currentPos - posShift;
 			}
-			if(Math.abs(newPos) >= itemContainer.width() - (itemWidth * settings.numItemShift)) { nextButton.addClass('disabled'); } // hide the next button
+			if(Math.abs(newPos) >= itemContainer.width() - posShift) { nextButton.addClass('disabled'); } // hide the next button
 			if(Math.abs(newPos) >= itemWidth) { prevButton.removeClass('disabled'); } // show the previous button
 			itemContainer.stop().animate({ left: newPos + 'px' }, settings.speed, settings.easing);
 		}
@@ -80,9 +86,9 @@ $.fn.ballzCarousel = function(options) {
 			if(i < settings.numItemShift * 2) {
 				var newPos = 0; // if there are less than numItemShift on the last shift, just move back to original position
 			} else {
-				var newPos = currentPos + (itemWidth * settings.numItemShift);
+				var newPos = currentPos + posShift;
 			}
-			if(newPos < itemContainer.width() - (itemWidth * settings.numItemShift)) { nextButton.removeClass('disabled'); }
+			if(newPos < itemContainer.width() - posShift) { nextButton.removeClass('disabled'); }
 			if(newPos >= 0) { prevButton.addClass('disabled'); }
 			itemContainer.stop().animate({ left: newPos + 'px' }, settings.speed, settings.easing);
 		}
