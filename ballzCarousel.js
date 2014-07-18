@@ -4,27 +4,33 @@ by Julian Park
 A simple jQuery carousel plug-in that allows you to specify the HTML elements to be used in the carousel.
 
 Usage:
-$('#carousel-container').ballzCarousel({ // default options
+$('#photo-container').ballzCarousel({ // default options
 	numItemShift: 3, // int
 	speed: 400, // int
 	easing: 'swing', // string
 });
 
 Markup Structure:
-<div id="carousel-container"> // whatever tag that is initialized with plugin
-	<div class="carousel"> // any tag with "carousel" class
+<div id="photo-carousel"> // whatever tag that is initialized with plugin
 	<button class="prev"></button> // any tag with "prev" and "next" class
-	<div class="item-container"> // any tag with "item-container" class
-		<div></div> // can be any tag
+	<div class="carousel"> // any tag with "carousel" class
+		<div class="item-container"> // any tag with "item-container" class
+			<div></div> // can be any tag
+		</div>
 	</div>
 	<button class="next"></button>
-	</div>
 </div>
+
+Styles:
+.item-container {
+	position: absolute;
+}
 
 UPDATES
 -------
 July 18, 2014:
 -added the test to make sure the itemContainer shifts when there are fewer than the minimum number of items to shift
+-added improvement on itemWidth calculate - now grabs the largest width (if items are not uniform size)
 
 March 5, 2014:
 -converted to jQuery plug-in
@@ -48,8 +54,15 @@ $.fn.ballzCarousel = function(options) {
 
 	prevButton.addClass('disabled');
 	nextButton.addClass('disabled');
+
 	var items = itemContainer.children();
-	var itemWidth = items.outerWidth(true);
+	// make sure to get the largest width (if for instance the first item is a diff width than the majority)
+	var itemWidth = 0;
+	items.each(function(){
+		w = $(this).outerWidth(true);      
+		if ( w > itemWidth)
+		itemWidth = w;
+	});
 	var numItems = items.length;
 	var itemsTotalWidth = 0;
 	var posShift = itemWidth * settings.numItemShift;
