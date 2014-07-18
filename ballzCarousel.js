@@ -23,6 +23,9 @@ Markup Structure:
 
 UPDATES
 -------
+July 18, 2014:
+-added the test to make sure the itemContainer shifts when there are fewer than the minimum number of items to shift
+
 March 5, 2014:
 -converted to jQuery plug-in
 -switched button toggling to add "disabled" class instead of hiding/showing. the user can determine whether to hide or style the disabled buttons
@@ -54,6 +57,11 @@ $.fn.ballzCarousel = function(options) {
 	itemContainer.width(numItems * itemWidth); // size the itemContainer width to contain items
 	var itemHeight = items.outerHeight(true);
 	overallContainer.height(itemHeight);
+	// shift the itemContainer if there are fewer than the minimum number of items to shift
+	if(numItems < settings.numItemShift) {
+		var marginLeft = ((settings.numItemShift - numItems) * itemWidth) / 2;
+		itemContainer.css('margin-left', marginLeft + 'px');
+	}
 
 	if(itemContainer.width() >= overallContainer.width()) { nextButton.removeClass('disabled'); } // if there are more items than are showing, show the next button
 	var numItemsStart = settings.numItemShift;
