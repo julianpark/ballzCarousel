@@ -20,12 +20,3 @@ div id="carousel-container" // whatever tag that is initialized with plugin
 	button class="next"
 	/div
 /div
-
-UPDATES
--------
-March 5, 2014:
--converted to jQuery plug-in
--switched button toggling to add "disabled" class instead of hiding/showing. the user can determine whether to hide or style the disabled buttons
-
-February 2, 2014:
--fixed a bug where if the number of items was exactly 1 above the limit, it would shift incorrectly
