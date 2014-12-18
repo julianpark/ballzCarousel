@@ -1,9 +1,8 @@
-blendCarousel
-=============
+# blendCarousel
 
 A simple jQuery carousel plug-in that allows you to specify the HTML elements to be used in the carousel.
 
-#Usage
+## Usage
 ```
 $('#carousel-container').blendCarousel({ // default options
 	numItemShift: 3, // int
@@ -12,7 +11,7 @@ $('#carousel-container').blendCarousel({ // default options
 });
 ```
 
-#Markup Structure
+## Markup Structure
 ```
 <div id="carousel-container"> // whatever tag that is initialized with plugin
 	<button class="prev"></button> // any tag with "prev" and "next" class
@@ -25,7 +24,7 @@ $('#carousel-container').blendCarousel({ // default options
 </div>
 ```
 
-#Styles
+## Styles
 ```
 #carousel-container {
 	position: relative;
@@ -39,8 +38,7 @@ $('#carousel-container').blendCarousel({ // default options
 }
 ```
 
-UPDATES
--------
+## Updates
 December 18, 2014:
 * added carousel indicators
 July 18, 2014:
