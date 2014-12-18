@@ -41,6 +41,7 @@ $('#carousel-container').blendCarousel({ // default options
 ## Updates
 December 18, 2014:
 * added carousel indicators
+
 July 18, 2014:
 * added the test to make sure the itemContainer shifts when there are fewer than the minimum number of items to shift
 * added improvement on itemWidth calculate - now grabs the largest width (if items are not uniform size)
