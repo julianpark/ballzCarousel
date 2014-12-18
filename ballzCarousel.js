@@ -1,17 +1,17 @@
 /*
-ballzCarousel
+blendCarousel
 by Julian Park
 A simple jQuery carousel plug-in that allows you to specify the HTML elements to be used in the carousel.
 
 Usage:
-$('#photo-container').ballzCarousel({ // default options
+$('#photo-container').blendCarousel({ // default options
 	numItemShift: 3, // int
 	speed: 400, // int
 	easing: 'swing', // string
 });
 
 Markup Structure:
-<div id="photo-carousel"> // whatever tag that is initialized with plugin
+<div id="carousel-container"> // whatever tag that is initialized with plugin
 	<button class="prev"></button> // any tag with "prev" and "next" class
 	<div class="carousel"> // any tag with "carousel" class
 		<div class="item-container"> // any tag with "item-container" class
@@ -22,12 +22,21 @@ Markup Structure:
 </div>
 
 Styles:
+#carousel-container {
+	position: relative;
+}
+.carousel {
+	position: relative;
+	overflow: hidden;
+}
 .item-container {
 	position: absolute;
 }
 
 UPDATES
 -------
+December 18, 2014:
+-added carousel indicators
 July 18, 2014:
 -added the test to make sure the itemContainer shifts when there are fewer than the minimum number of items to shift
 -added improvement on itemWidth calculate - now grabs the largest width (if items are not uniform size)
@@ -40,7 +49,7 @@ February 2, 2014:
 -fixed a bug where if the number of items was exactly 1 above the limit, it would shift incorrectly
 */
 
-$.fn.ballzCarousel = function(options) {
+$.fn.blendCarousel = function(options) {
 	var defaults = {
 		numItemShift: 3,
 		speed: 400,
@@ -80,6 +89,7 @@ $.fn.ballzCarousel = function(options) {
 	var numItemsStart = settings.numItemShift;
 
 	var i = numItemsStart; // item position count
+
 	nextButton.click(function (e) {
 		e.preventDefault();
 		if(!itemContainer.is(':animated') && !$(this).hasClass('disabled')) {
@@ -92,6 +102,7 @@ $.fn.ballzCarousel = function(options) {
 			} else {
 				var newPos = currentPos - posShift;
 			}
+			markIndicator(newPos);
 			if(Math.abs(newPos) >= itemContainer.width() - posShift) { nextButton.addClass('disabled'); } // hide the next button
 			if(Math.abs(newPos) >= itemWidth) { prevButton.removeClass('disabled'); } // show the previous button
 			itemContainer.stop().animate({ left: newPos + 'px' }, settings.speed, settings.easing);
@@ -99,6 +110,7 @@ $.fn.ballzCarousel = function(options) {
 
 		return false;
 	});
+
 	prevButton.click(function (e) {
 		e.preventDefault();
 		if(!itemContainer.is(':animated') && !$(this).hasClass('disabled')) {
@@ -109,6 +121,7 @@ $.fn.ballzCarousel = function(options) {
 			} else {
 				var newPos = currentPos + posShift;
 			}
+			markIndicator(newPos);
 			if(newPos < itemContainer.width() - posShift) { nextButton.removeClass('disabled'); }
 			if(newPos >= 0) { prevButton.addClass('disabled'); }
 			itemContainer.stop().animate({ left: newPos + 'px' }, settings.speed, settings.easing);
@@ -116,4 +129,30 @@ $.fn.ballzCarousel = function(options) {
 
 		return false;
 	});
+
+	$('.carousel-indicators li').click(function(e) {
+		e.preventDefault();
+
+		var thisLi = $(this);
+
+		if(!itemContainer.is(':animated') && !thisLi.hasClass('active')) {
+			var currentPos = itemContainer.position().left;
+			var thisNum = thisLi.index();
+			itemContainer.stop().animate({ left: '-' + (itemWidth * thisNum) + 'px' }, settings.speed, settings.easing, function() {
+					$('.carousel-indicators li').removeClass('active');
+					thisLi.addClass('active');
+				}
+			);
+		}
+
+		return false;
+	});
+
+	function markIndicator(newPos) {
+		// mark the corresponding indicator
+		$('.carousel-indicators li').removeClass('active');
+		var itemIndex = Math.abs(newPos / itemWidth);
+		var thisLi = $('.carousel-indicators li').eq(itemIndex);
+		thisLi.addClass('active');
+	}
 }
